@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 添加应用
+    # 添加应用， 注册应用
     'user',
 ]
 
@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'test1.wsgi.application'
 # 配置mysql，先pip install pymysql
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
-        'USERNAME': 'lqs',
+        'ENGINE': 'django.db.backends.mysql', # 数据库引擎，指定数据库类型
+        'NAME': 'test1',
+        'USER': 'lqs',
         'PASSWORD': 'lqs',
         'HOST': 'localhost',
         'PORT': 3306,
