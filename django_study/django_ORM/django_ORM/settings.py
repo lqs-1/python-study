@@ -17,7 +17,6 @@ import os
 # 项目路径，manager所在的目录
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ DEBUG = True
 
 # 允许访问的主机
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -78,12 +76,37 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_ORM.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # 数据库配置
 # 使用mysql需要安装pymysql库
+'''
+django添加事务：
+    方式一(全局开启功能)：settings.py中的DATABASES添加一项：ATOMIC_REQUEST = True,
+    
+    方式二(装饰器局部开启功能):from django.db import transaction
+                     在方法上：@transaction.atomic，表示这个方法具有事务功能
+                     如果使用的是全局开启方式，那么可以使用@transaction.non_atomic_requests, 这个装饰器可以局部上某个方法不开启事务功能
+    
+    方式一和方式二使用方法(在try...exception中使用)：
+        创建保存点
+        save_id = transaction.savepoint()
+        回滚到保存点()
+		transaction.savepoint_rollback(save_id)
+		主动提交（相当于 对象.save()）
+		transaction.savepoint_commit(save_id) 
+		清除保存点
+		transaction.clean_savepoints()  清除保存点
+		
+	方式三：
+	    不需要装饰器，也不需要配置文件配置
+	    在需要回滚的try...exception中使用,不用没有异常就自动提交，有异常自动回滚：
+	        with transaction.atomic():
+	            这个地方写语句
+
+    
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -91,10 +114,11 @@ DATABASES = {
         'USER': 'lqs',
         'PASSWORD': 'lqs',
         'HOST': '127.0.0.1',
-        'PORT': 3306
+        'PORT': 3306,
+        # "ATOMIC_REQUESTS": True  # 全局开启事务
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -114,7 +138,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 # 文字语言设置
@@ -125,7 +148,6 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

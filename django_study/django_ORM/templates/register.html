@@ -8,6 +8,11 @@
     <title>register</title>
 </head>
 <body>
-    <form method="post" action=""
+    <form method="post" action="">
+        {% csrf_token %}
+        用户名:<input type="text" name="username"><br>
+        密码：<input type="text" name="password"><br>
+        <input type="submit" value="submit">
+    </form>
 </body>
 </html>

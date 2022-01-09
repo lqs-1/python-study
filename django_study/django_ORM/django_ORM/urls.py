@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include('user.urls', namespace='user'))
+    # include:参数是一个字符串，将二级url配置加载进来, namespace,取别名，用于地址反向解析, 最终的路径是拼接出来的
+    path('user/', include('user.urls', namespace="user"))
 ]
