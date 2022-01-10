@@ -1,10 +1,18 @@
 from django.db import models
+# import datetime
 
 # Create your models here.
+
+class Role(models.Model):
+    role_name = models.CharField(max_length=255, verbose_name="身份")
+
 
 class User(models.Model):
     username = models.CharField(max_length=255, verbose_name="用户名")
     password = models.CharField(max_length=255, verbose_name="密码")
+    role_id = models.ForeignKey(to="Role", default=1, related_name="user_relation",on_delete=models.CASCADE)
+
+    del_mark = models.BooleanField(default=False)
 
 
     '''

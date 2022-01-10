@@ -165,3 +165,101 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+'''
+日志配置，多数抄别人的
+    在python的文件中使用日志：
+        import logging
+        logger = logging.getLogger('lqs')  : 名字和配置的名字一样就可以
+        
+        logger.warning("你好")
+        logger.error("你好")
+        logger.info("你好")
+        logger.debug("你好")
+        logger.critical("你好")
+'''
+
+log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs')
+if not os.path.exists(log_dir):
+    os.mkdir(log_dir)
+
+import time
+
+LOGGING = {
+    # 版本
+    'version': 1,
+    # 是否禁用默认的日志管理
+    'disable_existing_loggers': True,
+
+    # 输出格式
+    'formatters': {
+        # 日志标准格式
+        'standard': {
+            'format': '[%(asctime)s] [%(filename)s:%(lineno)d] [%(module)s:%(funcName)s] '
+                      '[%(levelname)s]- %(message)s'},
+        # 日志简单格式
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+
+    # 过滤，一般不设置
+    'filters': {
+    },
+
+    # 定义具体处理日志的方式
+    'handlers': {
+        # 默认记录所有日志
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(log_dir, 'all-{}.log'.format(time.strftime('%Y-%m-%d'))),
+            'maxBytes': 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份数
+            'formatter': 'standard',  # 输出格式
+            'encoding': 'utf-8',  # 设置默认编码，否则打印出来汉字乱码
+        },
+        # 输出错误日志
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(log_dir, 'error-{}.log'.format(time.strftime('%Y-%m-%d'))),
+            'maxBytes': 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份数
+            'formatter': 'standard',  # 输出格式
+            'encoding': 'utf-8',  # 设置默认编码
+        },
+        # 控制台输出
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        # 输出info日志
+        'info': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(log_dir, 'info-{}.log'.format(time.strftime('%Y-%m-%d'))),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+            'encoding': 'utf-8',  # 设置默认编码
+        },
+    },
+    # 配置用哪几种 handlers 来处理日志
+    'loggers': {
+        # 类型 为 lqs 处理所有类型的日志， 默认调用
+        'lqs': {
+            'handlers': ['default', 'console'],
+            'level': 'INFO',
+        },
+        # log 调用时需要当作参数传入
+        'log': {
+            'handlers': ['error', 'info', 'console', 'default'],
+            'level': 'INFO',
+        },
+    }
+}
+

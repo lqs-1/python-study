@@ -1,0 +1,4 @@
+[2022-01-10 09:28:57,723] [views.py:17] [views:index] [WARNING]- 你好
+[2022-01-10 09:28:57,724] [views.py:18] [views:index] [ERROR]- 你好
+[2022-01-10 09:28:57,724] [views.py:19] [views:index] [INFO]- 你好
+[2022-01-10 09:28:57,724] [views.py:21] [views:index] [CRITICAL]- 你好
