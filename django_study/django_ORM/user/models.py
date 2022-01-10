@@ -73,6 +73,9 @@ class User(models.Model):
                     gt,lt,gte,lte:大于，小于，大于等于，小于等于
                     day/month/year:使用方法:日期查询
                     
+                    values()：显示哪些字段， 返回一个字典
+                    values_list() ： 显示哪些字段， 返回一个元祖
+                    
                     
                 Q对象:用于查询时候的多个条件的  ’与或非‘  表示
                 from django.db.models import Q
@@ -94,6 +97,12 @@ class User(models.Model):
                 BookInfo.objects.all().aggregate(Count('id')) : 返回值是字典
                 BookInfo.objects.all().aggregate(Sum('bread') : 总和
                 
+        分组：
+            values('is_active')：根据什么分组
+            annotate(total=Count('id'))：对什么进行聚合
+            例子：
+                User.objects.all().values("role").annotate(total_mun=Count("id")).all()
+                
                 
         关联查询：
             一对多：外键定义在多表中，反向查询就是一表查多表
@@ -110,7 +119,7 @@ class User(models.Model):
                     如果外键字段定义了反向调用related_name，那么就使用  related_name的值.all()
                     user_list = role.user_relation.all()
                     
-            模型类方式：
+            模型类方式(还可以夸表查询)：
                 一查多：
                     User.objects.filter(role_id__id=1)
                 多查一:
