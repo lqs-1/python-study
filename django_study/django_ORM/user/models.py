@@ -10,7 +10,7 @@ class Role(models.Model):
 class User(models.Model):
     username = models.CharField(max_length=255, verbose_name="用户名")
     password = models.CharField(max_length=255, verbose_name="密码")
-    role_id = models.ForeignKey(to="Role", default=1, related_name="user_relation",on_delete=models.CASCADE)
+    role = models.ForeignKey(to="Role", default=1,on_delete=models.CASCADE)
 
     del_mark = models.BooleanField(default=False)
 
@@ -33,12 +33,102 @@ class User(models.Model):
         default：默认值
         auto_now_add:创建时间
         auto_now:更新时间
+        
+    操作：
+        删除：
+            User.objects.get(id=20).delete() : 删除一条
+            User.objects.filter(role_id=20).delete() ：删除多条
+        更新：
+            User.objects.filter(role_id=2).update(username="lixiaodong") : 修改多条
+            修改一条
+            user = User.objects.get(id=28)
+            user.username = "lishangshu"
+            user.save()
+        插入：
+            User.objects.create(xx=xx, xx=xx....)
+            如果是外键表，那么在添加的时候，外键字段就是一个表的对象
+            
+        查询：
+            普通查询：
+                User.objects.get(id=xx) : 查询单条数据
+                User.objects.filter(username="liqosng") : 查询多条数据
+                User.objects.exclude(id=xx) : 反向查询，不满足条件的
+                
+                get():返回满足条件的一条记录
+                all():返回所有记录，查询集
+                filter():返回满足条件的所有记录，查询集
+                exclude():返回不满足条件的所有记录，查询集
+                order_by(‘属性名1’,’属性名2'……):升序
+                order_by(‘-属性名1’,’-属性名2'……):降序，order_by()是将查出来的数据进行排序，
+                    如：BookInfo.objects.all().order_by('id','-btitle')
+                    
+                说明一下:exclude,filter,get三个都时带条件的--->模型名.objects.查询方式(属性名__条件名=值)
+                条件名:
+                    exact:判等 ，可以不用直接用 =
+                    contains:模糊查询，包含
+                    endswith\startswith:模糊查询，结尾\开头
+                    isnull:空查询,布尔值, User.objects.filter(xx__isnull=True[False])
+                    in:属性名__in = 列表或者元组,列出来的, User.objects.filter(xx__in=[1,2,3])
+                    range:不列出来，表示范围，between .. and .., User.objects.filter(xx__range=[1,65])
+                    gt,lt,gte,lte:大于，小于，大于等于，小于等于
+                    day/month/year:使用方法:日期查询
+                    
+                    
+                Q对象:用于查询时候的多个条件的  ’与或非‘  表示
+                from django.db.models import Q
+                例子:
+                    BookInfo.object.filter(Q(id = 2) & ~Q(btitle = 'hello'))   与
+                    BookInfo.object.filter(Q(id = 2) | Q(btitle = 'hello'))   或
+                    BookInfo.object.filter(~Q(id = 2))                        非
+                    
+                F对象:条件中用于属性比较,还可以进行算数运算
+                from django.db.models import F
+                例子:
+                    BookInfo.objects.filter(id__gt = F('bid'))
+                    BookInfo.objects.filter(id__gt = F('bid')*3)
+                
+                
+            聚合函数:sum,count,avg,max,min,在django中通过aggregates来使用
+            from django.db.models import Sum,Count,Avg,Max,Min
+            例子:
+                BookInfo.objects.all().aggregate(Count('id')) : 返回值是字典
+                BookInfo.objects.all().aggregate(Sum('bread') : 总和
+                
+                
+        关联查询：
+            一对多：外键定义在多表中，反向查询就是一表查多表
+            
+            普通方式：
+                先查一个表再查另一个表
+                多查一：
+                    user = User.objects.get(id=28)
+                    user.role_id[.role_name]
+                一查多：
+                    role = Role.objects.get(id=1)
+                    如果外键字段没有定义反向调用related_name，那么就使用  模型类名小写_set.all(), 和下面的方式二选一
+                    user_list = role.user_set.all()
+                    如果外键字段定义了反向调用related_name，那么就使用  related_name的值.all()
+                    user_list = role.user_relation.all()
+                    
+            模型类方式：
+                一查多：
+                    User.objects.filter(role_id__id=1)
+                多查一:
+                    如果没定义related_name,那么就只能用 模型类小写__属性=xxx
+                    Role.objects.filter(user__username='lishangshu', id=2)
+                    如果定义了related_name,那么就只能用 related_name的值__属性=xxx
+                    Role.objects.filter(user_relation__username='lishangshu', id=2)
+                
+                        
+        
+            
     '''
 
     class Meta:
         db_table = "user"
         verbose_name = "用户"
         verbose_name_plural = verbose_name
-
         '''说明是一个抽象模型类,别的函数中可以继承'''
         # abstract = True
+
+
