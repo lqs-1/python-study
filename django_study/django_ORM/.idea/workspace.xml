@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="195cd295-9e91-4957-8fa6-49f59076bca6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/user/templatetags/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/templatetags/test_filter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_ORM/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_ORM/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/all-2022-01-10.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/all-2022-01-10.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +43,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../source-code-for-book-master/书籍源码/第二、四、八章源码/myproject" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -122,7 +114,8 @@
       <updated>1641721733452</updated>
       <workItem from="1641721734697" duration="59000" />
       <workItem from="1641721909114" duration="31484000" />
-      <workItem from="1641798849108" duration="2734000" />
+      <workItem from="1641798849108" duration="3475000" />
+      <workItem from="1641803239945" duration="35000" />
     </task>
     <servers />
   </component>
