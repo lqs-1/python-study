@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 一级url配置文件的位置
 ROOT_URLCONF = 'django_ORM.urls'
 
 # 模板文件存放位置
@@ -158,6 +159,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+# 访问前缀或者别名
+MEDIA_URL = 'media'
 # 媒体文件的存放位置，用户上传的
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 

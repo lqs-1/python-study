@@ -1,10 +1,11 @@
 from django.db import models
-# import datetime
+from django.shortcuts import reverse
 
-# Create your models here.
 
 class Role(models.Model):
     role_name = models.CharField(max_length=255, verbose_name="身份")
+
+    # def get_abs
 
 
 class User(models.Model):
@@ -13,6 +14,16 @@ class User(models.Model):
     role = models.ForeignKey(to="Role", default=1,on_delete=models.CASCADE)
 
     del_mark = models.BooleanField(default=False)
+
+    # 如果模型中的某个字段需要建立url链接，来修改删除等，并且这个字段值唯一，
+    # 例如： 在修改某个商品的信息的时候，超链接的地方就会需要一个商品id，如果我们直接用id的话就不是太理想
+    # 可以通过get_absolute_url方法来解析出每个商品修改时候的链接，直接拿到前端页面就能进行填充，而不是在业务处理的时候拼接
+    # 这种方式需要一个要参数的url映射：  path('index/<int:num>/', index, name='index'), 这种的， 一定要有参数，不然没意义
+
+    # 使用的时候： 先把符合条件的数据查出来，然后传到前端，前端用填充占位符调用里面的方法get_absolute_url, 说白了就是完成了一个url地址拼接的工作
+    def get_absolute_url(self):
+        # self.pk 等同于 主键
+        return reverse("user:index", kwargs={'num': self.pk})
 
 
     '''

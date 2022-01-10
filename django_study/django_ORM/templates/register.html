@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 
 {%load static%}
+{#引入自定义的过滤器#}
+{% load test_filter %}
+
+{# 引入某个组件 #}
+{#{% include 'xx.html' %}#}
+
 
 <html lang="en">
 <head>
@@ -8,6 +14,13 @@
     <title>register</title>
 </head>
 <body>
+{% for username in usernames %}
+    {{ username.username}}
+    {{ username.username|gegege:"haha" }}
+{% endfor %}
+{% for role in roles %}
+{{ role.role_name }}
+{% endfor %}
     <form method="post" action="">
         {% csrf_token %}
         用户名:<input type="text" name="username"><br>
