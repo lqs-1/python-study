@@ -53,6 +53,21 @@ from django.db import transaction
 def index(request, num):
 
     if request.method == 'GET':
+
+        '''
+        cookie和session:
+        '''
+        request.COOKIES.get('xxx')  # 获取cookie
+        HttpResponse.set_cookie(key='xx', value='xx', max_age='xx')  # 设置cookie
+        HttpResponse.delete_cookie(key='xx')  # 删除cookie
+
+        request.session.get('xx')  # 获取session
+        request.session.setdefault('xx', 'xx')  # 设置session，存在则不设置
+        request.session['xx'] = 'xx'  # 设置session
+        del request.session['xx']  # 删除session
+
+
+
         return render(request, 'register.html')
     else:
         username = request.POST.get("username")
