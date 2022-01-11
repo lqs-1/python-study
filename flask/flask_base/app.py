@@ -1,7 +1,11 @@
 from flask import Flask, request, redirect, url_for, abort, make_response, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_script import Manager,Command
+from flask_migrate import Migrate,MigrateCommand
 app = Flask(__name__)
 
+# 添加和django一样的脚本启动模式，manage.run()，终端使用python xxx.py runserver, python xxx.py shell可以调用交互
+manage = Manager(app)
 
 
 # 使用mysql还要安装pymysql
@@ -10,10 +14,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lqs:lqs@localhost:3306/
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
+# 创建数据库迁移工具对象
+Migrate(app, db)
+# 向manage中添加数据库命令，
+# python xx.py db init
+# python xx.py db migrate
+# python xx.py db upgrade
+
+manage.add_command('db', MigrateCommand)
+
 class User(db.Model):
     __tablename__ = 'user'  # 指定在数据库中的表名
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True)
+    email = db.Column(db.String(20), default="33")
     # 定义外键，从底层考虑，真实的表名， 真是的字段进行关联
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
@@ -193,6 +208,16 @@ class Role(db.Model):
 
 
 
+# 钩子，用在函数上面
+# @app.before_first_request_funcs  # 第一次有请求的时候执行，也就是程序启动之后，第一个人发第一个请求的时候执行被装函数
+# @app.before_request   # 每次请求之前执行
+# @app.after_request   # 如果没有异常抛出，每次请求之后被执行，被装饰函数要接收一个参数，必须要返回值
+# @app.teardown_request  # 每次请求之后都执行，无论是否出现异常，被装饰函数要接收一个参数，必须要返回值
+# @app.errorhandler(404)  # 当访问出错时候，根据状态码来之心个，被装饰函数要接收一个参数，必须要返回值
+
+
+
+
 
 @app.route('/', methods=["GET"])
 def hello_world():
@@ -240,4 +265,5 @@ def hello():
 if __name__ == '__main__':
     # 获取路由表
     # print(app.url_map)
-    app.run(debug=True)
+    # app.run(debug=True)
+    manage.run()
