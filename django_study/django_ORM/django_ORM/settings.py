@@ -111,7 +111,7 @@ django添加事务：
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test1',
+        'NAME': 'django_orm',
         'USER': 'lqs',
         'PASSWORD': 'lqs',
         'HOST': '127.0.0.1',
@@ -160,7 +160,7 @@ STATICFILES_DIRS = (
 )
 
 # 访问前缀或者别名
-MEDIA_URL = 'media'
+MEDIA_URL = '/media/'
 # 媒体文件的存放位置，用户上传的
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 

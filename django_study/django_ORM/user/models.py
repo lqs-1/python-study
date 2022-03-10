@@ -5,6 +5,12 @@ from django.shortcuts import reverse
 class Role(models.Model):
     role_name = models.CharField(max_length=255, verbose_name="身份")
 
+    def __str__(self):
+        return self.role_name
+
+    class Meta:
+        db_table = 'role'
+
     # def get_abs
 
 
@@ -12,8 +18,10 @@ class User(models.Model):
     username = models.CharField(max_length=255, verbose_name="用户名")
     password = models.CharField(max_length=255, verbose_name="密码")
     role = models.ForeignKey(to="Role", default=1,on_delete=models.CASCADE)
-
     del_mark = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username
 
     # 如果模型中的某个字段需要建立url链接，来修改删除等，并且这个字段值唯一，
     # 例如： 在修改某个商品的信息的时候，超链接的地方就会需要一个商品id，如果我们直接用id的话就不是太理想
@@ -24,6 +32,7 @@ class User(models.Model):
     def get_absolute_url(self):
         # self.pk 等同于 主键
         return reverse("user:index", kwargs={'num': self.pk})
+
 
 
     '''
@@ -101,8 +110,9 @@ class User(models.Model):
                     BookInfo.objects.filter(id__gt = F('bid'))
                     BookInfo.objects.filter(id__gt = F('bid')*3)
                 
-                
-            聚合函数:sum,count,avg,max,min,在django中通过aggregates来使用
+               
+          
+            聚合函数:sum,count,avg,max,min,在django中通过aggregate来使用
             from django.db.models import Sum,Count,Avg,Max,Min
             例子:
                 BookInfo.objects.all().aggregate(Count('id')) : 返回值是字典
@@ -132,7 +142,7 @@ class User(models.Model):
                     
             模型类方式(还可以夸表查询)：
                 一查多：
-                    User.objects.filter(role_id__id=1)
+                    User.objects.filter(role_id=1)
                 多查一:
                     如果没定义related_name,那么就只能用 模型类小写__属性=xxx
                     Role.objects.filter(user__username='lishangshu', id=2)
@@ -150,5 +160,6 @@ class User(models.Model):
         verbose_name_plural = verbose_name
         '''说明是一个抽象模型类,别的函数中可以继承'''
         # abstract = True
+
 
 
